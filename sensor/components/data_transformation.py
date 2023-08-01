@@ -8,7 +8,7 @@ import os,sys
 import pandas as pd
 import numpy as np
 from sensor.config import TARGET_COLUMN
-from sklearn.preprocessing import Pipeline
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder
 from imblearn.combine import SMOTETomek
 from sklearn.impute import SimpleImputer
@@ -26,9 +26,9 @@ class DataTransformation:
     @classmethod
     def get_data_transformer_object(cls)->Pipeline:
         try:
-            simple_imputer=SimpleImputer(strategy='contant', fill_value=0)
+            simple_imputer=SimpleImputer(strategy='constant', fill_value=0)
             robust_scaler=RobustScaler()
-            pipeline=pipeline(steps=[('Imputer',simple_imputer),('RobustScaler',robust_scaler)])
+            pipeline=Pipeline(steps=[('Imputer',simple_imputer),('RobustScaler',robust_scaler)])
             return pipeline
 
         except Exception as e:
@@ -49,11 +49,11 @@ class DataTransformation:
             target_feature_test_df = test_df[TARGET_COLUMN]
 
             Label_encoder=LabelEncoder()
-            lebel_encoder.fit(target_feature_train_df)
+            Label_encoder.fit(target_feature_train_df)
 
             #transformation on target columns
-            target_feature_train_arr = label_encoder.transform(target_feature_train_df)
-            target_feature_test_arr = label_encoder.transform(target_feature_test_df)
+            target_feature_train_arr = Label_encoder.transform(target_feature_train_df)
+            target_feature_test_arr = Label_encoder.transform(target_feature_test_df)
 
             transformation_pipleine = DataTransformation.get_data_transformer_object()
             transformation_pipleine.fit(input_feature_train_df)
@@ -87,7 +87,7 @@ class DataTransformation:
 
             utils.save_object(file_path=self.data_transformation_config.transform_object_path, obj=transformation_pipleine)
 
-            utils.save_object(file_path=self.data_transformation_config.target_encoder_path, obj=label_encoder)
+            utils.save_object(file_path=self.data_transformation_config.target_encoder_path, obj=Label_encoder)
 
             data_transformation_artifact = artifact_entity.DataTransformationArtifact(
                 transform_object_path=self.data_transformation_config.transform_object_path,
