@@ -6,7 +6,9 @@ from datetime import datetime
 FILE_NAME = "sensor.csv"                    ##This is the file name inside which whole sensor dataset will present
 TRAIN_FILE_NAME = "train.csv"               ##This is the file inside which train dataset present
 TEST_FILE_NAME = "test.csv"                 ##This is the file inside which test dataset present
-
+TRANSFORMER_OBJECT_FILE_NAME = "transformer.pkl"
+TARGET_ENCODER_OBJECT_FILE_NAME = "target_encoder.pkl"
+MODEL_FILE_NAME = "model.pkl"
 
 class TrainingPipelineConfig:
 
@@ -43,3 +45,12 @@ class DataValidationConfig:
         self.report_file_path=os.path.join(self.data_validation_dir, "report.yaml")
         self.missing_threshold:float = 0.2
         self.base_file_path = os.path.join("aps_failure_training_set1.csv") 
+
+class DataTransformationConfig:
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        self.data_transformation_dir=os.path.join(training_pipeline_config.artifact_dir, "data_transformation")
+        self.transform_object_path=os.path.join(self.data_transormation_dir,"transformer",TRANSFORMER_OBJECT_FILE_NAME)
+        self.transformed_train_path=os.path.join(self.data_transormation_dir,"transformer",TRAIN_FILE_NAME)
+        self.transformed_test_path=os.path.join(self.data_transormation_dir,"transformer",TEST_FILE_NAME)
+        self.target_encoder_path=os.path.join(self.data_transormation_dir,"target_encoder",TARGET_ENCODER_OBJECT_FILE_NAME)
+        
