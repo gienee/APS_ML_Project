@@ -44,14 +44,13 @@ class DataValidationConfig:
         self.data_validation_dir = os.path.join(training_pipeline_config.artifact_dir , "data_validation")
         self.report_file_path=os.path.join(self.data_validation_dir, "report.yaml")
         self.missing_threshold:float = 0.2
-        self.base_file_path = os.path.join("aps_failure_training_set1.csv") 
-
+        self.base_file_path = os.path.join("aps_failure_training_set1.csv")
 class DataTransformationConfig:
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):
         self.data_transformation_dir=os.path.join(training_pipeline_config.artifact_dir, "data_transformation")
         self.transform_object_path=os.path.join(self.data_transformation_dir,"transformer",TRANSFORMER_OBJECT_FILE_NAME)
         self.transformed_train_path=os.path.join(self.data_transformation_dir,"transformer",TRAIN_FILE_NAME.replace("csv","npz"))
-        self.transformed_test_path=os.path.join(self.data_transformation_dir,"transformer",TEST_FILE_NAME.replace("csv","npz"))
+        self.transformed_test_path=os.path.join(self.data_transformation_dir,"transformer",TEST_FILE_NAME.replajce("csv","npz"))
         self.target_encoder_path=os.path.join(self.data_transformation_dir,"target_encoder",TARGET_ENCODER_OBJECT_FILE_NAME)
         
 
@@ -61,3 +60,10 @@ class ModelTrainerConfig:
         self.model_path = os.path.join(self.model_trainer_dir,"model",MODEL_FILE_NAME)
         self.expected_score = 0.7                       ##Take expected score as 70%
         self.overfitting_threshold = 0.1                ##Take overfitting threshold value..the minimumvalue is 10%
+
+
+class ModelEvaluationConfig:
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+         self.change_threshold = 0.01
+
+
